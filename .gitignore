@@ -1,0 +1,32 @@
+# Environment & credentials (never commit)
+.env
+.env.local
+.env.*.local
+.env.production
+*.env
+config.local.php
+credentials.php
+secrets.php
+
+# PHP
+/vendor/
+composer.lock
+composer.phar
+*.log
+php_errors.log
+
+# IDE & OS
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Optional: uncomment to exclude backup/reference files from the repo
+# *_backup.php
+# *-backup.php
+
+# Optional: uncomment if you add DB/config with secrets later
+# config.php
