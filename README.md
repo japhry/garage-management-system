@@ -18,7 +18,7 @@
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
 | ![01 Dashboard](Assets/img/01.png) | ![02 Calendar](Assets/img/02.png) | ![03 Estimates](Assets/img/03.png) |
-| **01 — Dashboard** | **02 ** | **03** |
+| **01 — Dashboard** | **02** | **03** |
 | ![04 Job Sheets & Invoices](Assets/img/04.png) | ![05 Customers & Vehicles](Assets/img/05.png) | |
 | **04** | **05** | |
 
