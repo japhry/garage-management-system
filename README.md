@@ -17,10 +17,10 @@
 
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
-| ![Dashboard](Assets/img/01.png) | ![Calendar](Assets/img/02.png) | ![Estimates](Assets/img/03.png) |
-| **Dashboard** | **Calendar** | **Estimates** |
-| ![Job Sheets / Invoices](Assets/img/04.png) | ![Customers & Vehicles](Assets/img/05.png) | |
-| **Job Sheets & Invoices** | **Customers & Vehicles** | |
+| ![01 Dashboard](Assets/img/01.png) | ![02 Calendar](Assets/img/02.png) | ![03 Estimates](Assets/img/03.png) |
+| **01 — Dashboard** | **02 — Calendar** | **03 — Estimates** |
+| ![04 Job Sheets & Invoices](Assets/img/04.png) | ![05 Customers & Vehicles](Assets/img/05.png) | |
+| **04 — Job Sheets & Invoices** | **05 — Customers & Vehicles** | |
 
 ---
 
@@ -86,65 +86,11 @@ The repo uses a **clear, include-based layout**: page entry points in the root, 
 ## 🚀 Getting Started
 
 1. **Requirements:** PHP 7.4+ and a web server (Apache with mod_rewrite, or PHP built-in server).
-2. **Clone the repo** (see [Push to GitHub](#-push-to-github) below).
+2. **Clone the repo:** `git clone https://github.com/japhry/garage-management-system.git`
 3. **Point your document root** to this folder (or run `php -S localhost:8000` for quick testing).
 4. **Open** `index.php` in the browser (e.g. `http://localhost:8000/`).
 
-No database is required for the current UI; add `.env` and config as needed for future backend integration (see [Credentials](#-keeping-credentials-safe)).
-
----
-
-## 📤 Push to GitHub
-
-Use these steps to push this project to your existing repo **without committing credentials**.
-
-### 1. Initialize Git (if not already)
-
-```bash
-cd "c:\Users\Japhry\Herd\Garage-mrc"
-git init
-```
-
-### 2. Add the remote
-
-```bash
-git remote add origin https://github.com/japhry/garage-management-system.git
-```
-
-### 3. Stage and commit (`.gitignore` already excludes `.env` and sensitive files)
-
-```bash
-git add .
-git status   # Double-check: no .env or config with secrets listed
-git commit -m "Initial commit: Garage Management System"
-```
-
-### 4. Push to GitHub
-
-**Option A — HTTPS (GitHub will prompt for credentials):**
-
-```bash
-git branch -M main
-git push -u origin main
-```
-
-When prompted:
-- **Username:** your GitHub username  
-- **Password:** use a **Personal Access Token (PAT)**, not your account password.  
-  Create one: [GitHub → Settings → Developer settings → Personal access tokens](https://github.com/settings/tokens).
-
-**Option B — SSH (recommended once set up):**
-
-```bash
-git remote set-url origin git@github.com:japhry/garage-management-system.git
-git push -u origin main
-```
-
-### 5. Keep credentials safe
-
-- **Never commit** `.env`, `config.local.php`, or any file containing passwords, API keys, or secrets.  
-- This repo’s **`.gitignore`** already excludes `.env`, `*.env`, and common credential file names.  
-- If you later add database or API config, keep secrets in `.env` and add `config.example.php` (without real values) for other developers.
+No database is required for the current UI; add `.env` and config as needed for future backend integration.
 
 ---
 

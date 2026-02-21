@@ -1,0 +1,6 @@
+# Normalize line endings: checkout with CRLF on Windows, store as LF in repo
+* text=auto eol=lf
+*.{php,js,css,md,json,yml,yaml,html,htm} text eol=lf
+
+# Binary files: do not touch line endings
+*.{png,jpg,jpeg,gif,ico,woff,woff2,ttf,eot} binary
