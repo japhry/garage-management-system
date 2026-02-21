@@ -3,7 +3,7 @@ require_once 'config.php';
 ?>
     <!-- Top Header with User Section -->
     <div class="top-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-      <h1 style="font-size: 2rem; color: var(--dark); margin: 0;"><?php echo getPageTitle(); ?></h1>
+      <h1 style="font-size: 2rem; color: var(--dark); margin: 0;"><?php echo e(getPageTitle()); ?></h1>
       <div class="user-section" style="display: flex; align-items: center; gap: 15px;">
         <div class="add-dropdown" style="position: relative;">
           <button class="header-btn add-btn" style="background: none; border: none; font-size: 1.2rem; color: #666; cursor: pointer;">

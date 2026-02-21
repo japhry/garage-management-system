@@ -138,7 +138,7 @@ class MenuManager {
   }
 
   setupMenuItems() {
-document.querySelectorAll('.menu-item').forEach(item => {
+    document.querySelectorAll('.menu-item').forEach(item => {
       item.addEventListener('click', (e) => {
         // Remove active class from all menu items
         document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
@@ -2485,7 +2485,7 @@ class WidgetCalendarManager {
     // Set title
     const months = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
     this.title.textContent = `${months[this.currentMonth]} ${this.currentYear}`;
-    // Remove all day cells except headers
+    // Keep day headers, remove and re-add day cells
     const headers = Array.from(this.grid.querySelectorAll('.mrc-calendar-day-header'));
     this.grid.innerHTML = '';
     headers.forEach(h => this.grid.appendChild(h));

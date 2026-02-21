@@ -7,8 +7,11 @@ require_once 'config.php';
       
       <!-- Copyright Section -->
       <div class="footer-copyright" style="flex: 1; min-width: 300px;">
-        <div style="font-size: 0.9rem; color: #ccc; margin-bottom: 10px;">
+        <div style="font-size: 0.9rem; color: #ccc; margin-bottom: 6px;">
           © 2025 MRC Motors. All rights reserved.
+        </div>
+        <div style="font-size: 0.85rem; color: #999;">
+          Coded by <a href="https://pixellinx.co.tz" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none;">japhary from Pixellinx</a>
         </div>
       </div>
       
@@ -50,10 +53,6 @@ require_once 'config.php';
       </div>
     </div>
     
-    <!-- Bottom Bar -->
-    <div class="footer-bottom" style="border-top: 1px solid rgba(255, 255, 255, 0.1); margin-top: 20px; padding-top: 20px; text-align: center;">
-      <!-- Removed the 'Built with ❤️ By japhary hashim From Pixellinx -->
-    </div>
   </div>
 </footer>
 
@@ -62,6 +61,10 @@ require_once 'config.php';
 .social-icon:hover {
   transform: translateY(-3px) scale(1.1);
   box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+}
+
+.footer-copyright a:hover {
+  text-decoration: underline !important;
 }
 
 /* Dark theme adjustments */

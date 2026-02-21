@@ -1,5 +1,12 @@
 <?php
-// Configuration and common functions for MRC Motors
+/**
+ * Configuration and common functions for MRC Motors
+ */
+
+// Escape output for HTML context (XSS prevention)
+function e($string) {
+    return htmlspecialchars((string) $string, ENT_QUOTES, 'UTF-8');
+}
 
 // Get current page name for active menu highlighting
 function getCurrentPage() {
@@ -52,12 +59,12 @@ function renderHeader() {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><?php echo $page_title; ?></title>
+        <title><?php echo e($page_title); ?></title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-        <link rel="stylesheet" href="<?php echo getBaseUrl(); ?>Assets/CSS/base.css?v=<?php echo time(); ?>">
-        <link rel="stylesheet" href="<?php echo getBaseUrl(); ?>Assets/CSS/layout.css?v=<?php echo time(); ?>">
-        <link rel="stylesheet" href="<?php echo getBaseUrl(); ?>Assets/CSS/components.css?v=<?php echo time(); ?>">
-        <link rel="stylesheet" href="<?php echo getBaseUrl(); ?>Assets/CSS/styles.css?v=<?php echo time(); ?>">
+        <link rel="stylesheet" href="<?php echo e(getBaseUrl()); ?>Assets/CSS/base.css?v=<?php echo e((string) time()); ?>">
+        <link rel="stylesheet" href="<?php echo e(getBaseUrl()); ?>Assets/CSS/layout.css?v=<?php echo e((string) time()); ?>">
+        <link rel="stylesheet" href="<?php echo e(getBaseUrl()); ?>Assets/CSS/components.css?v=<?php echo e((string) time()); ?>">
+        <link rel="stylesheet" href="<?php echo e(getBaseUrl()); ?>Assets/CSS/styles.css?v=<?php echo e((string) time()); ?>">
     </head>
     <body>
     <?php
@@ -67,8 +74,8 @@ function renderHeader() {
 function renderFooter() {
     ?>
         <?php include 'partials/footer.php'; ?>
-        <script src="<?php echo getBaseUrl(); ?>Assets/JS/core.js?v=<?php echo time(); ?>"></script>
-        <script src="<?php echo getBaseUrl(); ?>Assets/JS/script.js?v=<?php echo time(); ?>"></script>
+        <script src="<?php echo e(getBaseUrl()); ?>Assets/JS/core.js?v=<?php echo e((string) time()); ?>"></script>
+        <script src="<?php echo e(getBaseUrl()); ?>Assets/JS/script.js?v=<?php echo e((string) time()); ?>"></script>
     </body>
     </html>
     <?php
@@ -87,4 +94,4 @@ function getBaseUrl() {
     
     return $protocol . $host . $base_path;
 }
-?> 
+ 
