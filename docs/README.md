@@ -36,7 +36,7 @@ Garage-mrc/
 │   │   ├── database.js       # Database and search functionality
 │   │   └── script.js         # Main script with all functionality
 │   └── logo.png              # Application logo
-├── *.html                    # All application pages
+├── *.php                     # All application pages
 └── README.md                 # This file
 ```
 
@@ -102,7 +102,7 @@ The JavaScript is organized into classes for better structure:
 ## 🚀 Getting Started
 
 1. **Clone or download** the project files
-2. **Open** `index.html` in a modern web browser
+2. **Open** `index.php` in a modern web browser
 3. **Navigate** through the different sections using the sidebar
 4. **Test** the responsive design by resizing your browser window
 5. **Try** the dark mode toggle in the top-right corner

@@ -494,7 +494,6 @@ renderHeader();
   <?php include 'Popups/calendar/new-document.php'; ?>
   <?php include 'Popups/calendar/new-repetition.php'; ?>
   
-  <script src="Assets/JS/script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="Assets/JS/calendar.js"></script>
   <script>
@@ -648,13 +647,13 @@ renderHeader();
   });
   // Redirects
   if (document.getElementById('newdoc-estimate')) {
-    document.getElementById('newdoc-estimate').onclick = function() { window.location.href = 'estimates.html'; };
+    document.getElementById('newdoc-estimate').onclick = function() { window.location.href = 'estimates.php'; };
   }
   if (document.getElementById('newdoc-jobsheet')) {
-    document.getElementById('newdoc-jobsheet').onclick = function() { window.location.href = 'job-sheets.html'; };
+    document.getElementById('newdoc-jobsheet').onclick = function() { window.location.href = 'job-sheets.php'; };
   }
   if (document.getElementById('newdoc-invoice')) {
-    document.getElementById('newdoc-invoice').onclick = function() { window.location.href = 'invoices.html'; };
+    document.getElementById('newdoc-invoice').onclick = function() { window.location.href = 'invoices.php'; };
   }
 
   // Show Repetition Modal when 'New Repetition' button is clicked in the action bar

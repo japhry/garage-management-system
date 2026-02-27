@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
   new ThemeManager();
   new MenuManager();
   new DropdownManager();
+  ModalManager.wireTriggers();
+  window.ModalManager = ModalManager;
   
   // Set up mutation observer to detect when sidebar is loaded
   const observer = new MutationObserver(function(mutations) {
@@ -192,8 +194,8 @@ class MenuManager {
     const filename = path.split('/').pop();
     
     // Handle different page scenarios
-    if (filename === '' || filename === 'index.html') {
-      return 'index.html';
+    if (filename === '' || filename === 'index.php' || filename === 'index.html') {
+      return 'index.php';
     }
     
     return filename;
@@ -202,7 +204,7 @@ class MenuManager {
 
 // Global function to set active menu item (can be called after sidebar loads)
 function setActiveMenuItem() {
-  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  const currentPage = window.location.pathname.split('/').pop() || 'index.php';
   
   // Remove active class from all menu items
   document.querySelectorAll('.menu-item').forEach(item => {
@@ -217,6 +219,45 @@ function setActiveMenuItem() {
       return;
     }
   });
+}
+
+// Modal behavior consistency across pages
+class ModalManager {
+  static openById(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    modal.style.display = 'flex';
+    modal.classList.add('show');
+  }
+
+  static closeById(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    modal.style.display = 'none';
+    modal.classList.remove('show');
+  }
+
+  static wireTriggers() {
+    document.querySelectorAll('[data-open-modal]').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        ModalManager.openById(trigger.getAttribute('data-open-modal'));
+      });
+    });
+
+    document.querySelectorAll('[data-close-modal]').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        ModalManager.closeById(trigger.getAttribute('data-close-modal'));
+      });
+    });
+
+    document.querySelectorAll('.modal-overlay, .modal').forEach(modal => {
+      modal.addEventListener('click', (event) => {
+        if (!event.target.classList.contains('modal-backdrop')) return;
+        modal.style.display = 'none';
+        modal.classList.remove('show');
+      });
+    });
+  }
 }
 
 // Dropdown Management
