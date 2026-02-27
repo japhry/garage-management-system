@@ -229,8 +229,6 @@ include 'partials/sidebar.php';
   </div>
 </div>
 
-<?php renderFooter(); ?> 
-
 <!-- JavaScript Section -->
 <script>
 // Date Range Functions
@@ -344,3 +342,6 @@ if (maxResultsBtn && maxResultsMenu) {
 // Refresh Button
 document.getElementById('refresh-btn').onclick = function() { location.reload(); };
 </script>
+
+<?php renderFooter(); ?>
+

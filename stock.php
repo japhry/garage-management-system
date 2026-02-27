@@ -131,7 +131,7 @@ renderHeader();
     </div>
   </div>
 </div>
-<?php renderFooter(); ?>
+
 <?php include 'Popups/stock/add-stock.php'; ?>
 <?php include 'Popups/stock/orders-popup.php'; ?>
 <?php include 'Popups/stock/pending-order-popup.php'; ?>
@@ -278,4 +278,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
-</script> 
+</script>
+
+<?php renderFooter(); ?>
+

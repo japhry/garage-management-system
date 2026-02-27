@@ -118,7 +118,7 @@ renderHeader();
     <!-- Payment Collection Summary -->
     <!-- Remove the Collection Summary section below -->
   </div>
-<?php renderFooter(); ?> 
+
 <script>
 function toggleMaxResultsDropdown(e) {
   e.stopPropagation();
@@ -144,4 +144,7 @@ function openAccountManagerModal() {
 function closeAccountManagerModal() {
   document.getElementById('accountManagerModal').classList.remove('show');
 }
-</script> 
+</script>
+
+<?php renderFooter(); ?>
+

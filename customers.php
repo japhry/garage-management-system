@@ -208,8 +208,7 @@ renderHeader();
   <!-- Include Customer Popups -->
   <?php include 'Popups/customers/add-customer.php'; ?>
   <?php include 'Popups/customers/adv-search-customer.php'; ?>
-  
-<?php renderFooter(); ?> 
+
 <script>
 // Max Results Dropdown Logic
 const maxResultsBtn = document.getElementById('maxResultsBtn');
@@ -244,3 +243,6 @@ if (maxResultsBtn && maxResultsMenu) {
   color: var(--accent-solid);
 }
 </style>
+
+<?php renderFooter(); ?>
+

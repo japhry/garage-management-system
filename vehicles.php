@@ -100,8 +100,7 @@ renderHeader();
   <!-- Include Vehicle Popups -->
   <?php include 'Popups/vehicles/add-vehicle.php'; ?>
   <?php include 'Popups/customers/adv-search-customer.php'; ?>
-  
-<?php renderFooter(); ?> 
+
 <script>
 // Max Results Dropdown Logic
 const maxResultsBtn = document.getElementById('maxResultsBtn');
@@ -174,4 +173,7 @@ if (maxResultsBtn && maxResultsMenu) {
   overflow-x: auto;
   margin-bottom: 1.5rem;
 }
-</style> 
+</style>
+
+<?php renderFooter(); ?>
+
