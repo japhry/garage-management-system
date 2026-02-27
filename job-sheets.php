@@ -69,7 +69,7 @@ renderHeader();
                 <th>Status</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="job-sheets-table-body">
               <tr>
                 <td><span class="doc-type-badge doc-type-js">JS</span></td>
                 <td>1003</td>
@@ -173,6 +173,16 @@ renderHeader();
   const createdToggleBtn = document.getElementById('created-toggle-btn');
   const createBtnIcon = '<i class="fas fa-plus"></i>';
   let mode = 'due'; // 'due' or 'created'
+
+  function hydrateJobSheetRows() {
+    if (!window.GarageDataLayer) return;
+    GarageDataLayer.renderDocumentRows('job-sheet', '#job-sheets-table-body', {
+      statuses: ['Open', 'In Progress', 'Completed', 'On Hold'],
+      badgeClass: 'doc-type-js',
+      badgeLabel: 'JS',
+      withActions: false
+    });
+  }
 
   function formatDate(d) {
     if (!d) return '';
@@ -351,6 +361,12 @@ renderHeader();
     headerRecords.textContent = `(Showing ${visibleCount} Records)`;
   }
 
+  // Initial render
+  hydrateJobSheetRows();
+  document.addEventListener('garage:data-changed', function() {
+    hydrateJobSheetRows();
+    updateHeaderAndButton();
+  });
   // Initial update
   updateHeaderAndButton();
 

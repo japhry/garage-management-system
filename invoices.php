@@ -69,7 +69,7 @@ renderHeader();
                 <th>Status</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="invoices-table-body">
               <tr>
                 <td><span class="doc-type-badge doc-type-inv">INV</span></td>
                 <td>2001</td>
@@ -141,6 +141,16 @@ const todayBtn = Array.from(document.querySelectorAll('.search-btn')).find(btn =
 const createdToggleBtn = document.getElementById('created-toggle-btn');
 const createBtnIcon = '<i class="fas fa-plus"></i>';
 let mode = 'due'; // 'due' or 'created'
+
+function hydrateInvoiceRows() {
+  if (!window.GarageDataLayer) return;
+  GarageDataLayer.renderDocumentRows('invoice', '#invoices-table-body', {
+    statuses: ['~', 'Open', 'In Progress', 'Completed', 'On Hold'],
+    badgeClass: 'doc-type-inv',
+    badgeLabel: 'INV',
+    withActions: false
+  });
+}
 
 function formatDate(d) {
   if (!d) return '';
@@ -482,6 +492,11 @@ document.addEventListener('click', function(event) {
 });
 
 // Initial update
+hydrateInvoiceRows();
+document.addEventListener('garage:data-changed', function() {
+  hydrateInvoiceRows();
+  updateHeaderAndButton();
+});
 updateHeaderAndButton();
 </script>
 

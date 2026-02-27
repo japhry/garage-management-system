@@ -71,7 +71,7 @@ renderHeader();
               <th></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="estimates-table-body">
               <tr>
                 <td><span class="doc-type-badge doc-type-es">ES</span></td>
               <td>1003</td>
@@ -199,6 +199,16 @@ renderHeader();
   const dueBtnIcon = '<i class="fas fa-calendar-day"></i>';
   const createdBtnIcon = '<i class="fas fa-clock"></i>';
   let mode = 'due'; // 'due' or 'created'
+
+  function hydrateEstimateRows() {
+    if (!window.GarageDataLayer) return;
+    GarageDataLayer.renderDocumentRows('estimate', '#estimates-table-body', {
+      statuses: ['~', 'Auth Req', 'Complete', 'Service', 'Urgent'],
+      badgeClass: 'doc-type-es',
+      badgeLabel: 'ES',
+      withActions: true
+    });
+  }
 
   function formatDate(d) {
     if (!d) return '';
@@ -357,7 +367,7 @@ renderHeader();
       const rowStatus = rowStatusSelect ? rowStatusSelect.value.trim().toLowerCase() : '';
 
       let matchesStatus = true;
-      if (selectedStatus && selectedStatus !== 'âˆ¼' && selectedStatus !== '~') {
+      if (selectedStatus && selectedStatus !== 'âˆ¼' && selectedStatus !== '∼' && selectedStatus !== '~') {
         matchesStatus = rowStatus === selectedStatus || text.includes(selectedStatus);
       }
 
@@ -377,6 +387,12 @@ renderHeader();
     headerRecords.textContent = `(Showing ${visibleCount} Records)`;
   }
 
+  // Initial render
+  hydrateEstimateRows();
+  document.addEventListener('garage:data-changed', function() {
+    hydrateEstimateRows();
+    updateHeaderAndButton();
+  });
   // Initial update
   updateHeaderAndButton();
   </script>
