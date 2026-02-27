@@ -37,7 +37,7 @@
           <div class="form-row acc-row">
             <label>Acc Number</label>
             <div class="acc-input-group">
-              <input type="text" placeholder="Auto Generate" class="modern-input" style="font-style:italic;">
+              <input id="customer-acc-number" type="text" placeholder="Auto Generate" class="modern-input" style="font-style:italic;">
               <div class="acc-actions">
                 <button type="button" class="acc-action-btn"><i class="fas fa-pen"></i></button>
                 <button type="button" class="acc-action-btn"><i class="fas fa-envelope"></i></button>
@@ -45,24 +45,24 @@
           </div>
           </div>
           </div>
-          <div class="form-row"><label>Company</label><input type="text" class="modern-input"></div>
-          <div class="form-row"><label>Name</label><input type="text" class="modern-input"></div>
+          <div class="form-row"><label>Company</label><input id="customer-company" type="text" class="modern-input"></div>
+          <div class="form-row"><label>Name</label><input id="customer-name" type="text" class="modern-input"></div>
           <div class="form-row house-row">
             <label>House No</label>
             <div class="house-post-group">
-              <input type="text" class="modern-input" style="flex:2;">
-              <input type="text" placeholder="Post Code" class="modern-input" style="flex:1; margin-left:10px;">
+              <input id="customer-house-no" type="text" class="modern-input" style="flex:2;">
+              <input id="customer-postcode" type="text" placeholder="Post Code" class="modern-input" style="flex:1; margin-left:10px;">
               <button type="button" class="acc-action-btn" style="margin-left:6px;"><i class="fas fa-search"></i></button>
           </div>
           </div>
-          <div class="form-row"><label>Road</label><input type="text" class="modern-input"></div>
-          <div class="form-row"><label>Locality</label><input type="text" class="modern-input"></div>
-          <div class="form-row"><label>Town</label><input type="text" class="modern-input"></div>
-          <div class="form-row"><label>County</label><input type="text" class="modern-input"></div>
+          <div class="form-row"><label>Road</label><input id="customer-road" type="text" class="modern-input"></div>
+          <div class="form-row"><label>Locality</label><input id="customer-locality" type="text" class="modern-input"></div>
+          <div class="form-row"><label>Town</label><input id="customer-town" type="text" class="modern-input"></div>
+          <div class="form-row"><label>County</label><input id="customer-county" type="text" class="modern-input"></div>
           <hr class="modern-divider">
-          <div class="form-row"><label>Mobile</label><input type="text" class="modern-input"></div>
-          <div class="form-row"><label>Telephone</label><input type="text" class="modern-input"></div>
-          <div class="form-row"><label>Email</label><input type="email" class="modern-input"></div>
+          <div class="form-row"><label>Mobile</label><input id="customer-mobile" type="text" class="modern-input"></div>
+          <div class="form-row"><label>Telephone</label><input id="customer-telephone" type="text" class="modern-input"></div>
+          <div class="form-row"><label>Email</label><input id="customer-email" type="email" class="modern-input"></div>
         </form>
         </div>
     
@@ -1840,15 +1840,45 @@ document.addEventListener('DOMContentLoaded', function() {
 
   if (saveCustomerBtn) {
     saveCustomerBtn.addEventListener('click', function() {
-      // Collect form data
       const customerData = {
-        // Your form data collection logic
+        company: document.getElementById('customer-company')?.value || '',
+        name: document.getElementById('customer-name')?.value || '',
+        houseNo: document.getElementById('customer-house-no')?.value || '',
+        road: document.getElementById('customer-road')?.value || '',
+        locality: document.getElementById('customer-locality')?.value || '',
+        town: document.getElementById('customer-town')?.value || '',
+        county: document.getElementById('customer-county')?.value || '',
+        postcode: document.getElementById('customer-postcode')?.value || '',
+        mobile: document.getElementById('customer-mobile')?.value || '',
+        telephone: document.getElementById('customer-telephone')?.value || '',
+        email: document.getElementById('customer-email')?.value || ''
       };
-      
-      // Validate and save
-      console.log('Saving customer:', customerData);
+
+      if (!customerData.name.trim()) {
+        alert('Customer name is required');
+        return;
+      }
+
+      if (window.GarageDataLayer && typeof GarageDataLayer.addCustomer === 'function') {
+        GarageDataLayer.addCustomer({
+          name: customerData.name,
+          company: customerData.company,
+          phone: customerData.mobile || customerData.telephone,
+          email: customerData.email,
+          postcode: customerData.postcode,
+          address: [customerData.houseNo, customerData.road, customerData.locality, customerData.town, customerData.county]
+            .filter(Boolean)
+            .join(', ')
+        });
+        document.dispatchEvent(new CustomEvent('garage:data-changed'));
+      }
+
       closeAddCustomerModal();
-      alert('Customer saved successfully!');
+      if (window.Utils && typeof Utils.showNotification === 'function') {
+        Utils.showNotification('Customer saved successfully', 'success');
+      } else {
+        alert('Customer saved successfully!');
+      }
     });
   }
 

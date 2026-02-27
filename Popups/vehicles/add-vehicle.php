@@ -68,8 +68,8 @@
                 <div>
                   <label>Make / Model</label>
                   <div style="display: flex; gap: 8px;">
-                    <input type="text" class="modern-input" placeholder="Make">
-                    <input type="text" class="modern-input" placeholder="Model">
+                    <input id="vehicle-make" type="text" class="modern-input" placeholder="Make">
+                    <input id="vehicle-model" type="text" class="modern-input" placeholder="Model">
           </div>
           </div>
                 <div></div>
@@ -140,8 +140,8 @@
               <button class="btn-secondary fancy-btn" style="padding: 7px 16px; font-size: 1rem; border-radius: 8px; background: #fff; color: var(--accent-solid); font-weight: 700; border: 1.5px solid var(--accent-light);">Remove Owner</button>
             </div>
             <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px;">
-              <input type="text" class="modern-input" placeholder="Acc Number">
-              <input type="text" class="modern-input" placeholder="Name">
+              <input id="vehicle-owner-acc" type="text" class="modern-input" placeholder="Acc Number">
+              <input id="vehicle-owner-name" type="text" class="modern-input" placeholder="Name">
               <input type="text" class="modern-input" placeholder="Telephone">
               <input type="text" class="modern-input" placeholder="Mobile">
             </div>
@@ -872,41 +872,31 @@ document.addEventListener('DOMContentLoaded', function() {
   // Save vehicle
   if (saveVehicleBtn) {
     saveVehicleBtn.addEventListener('click', function() {
-      // Collect form data
       const vehicleData = {
-        registration: document.getElementById('vehicle-registration')?.value,
-        vin: document.getElementById('vehicle-vin')?.value,
-        make: document.getElementById('vehicle-make')?.value,
-        model: document.getElementById('vehicle-model')?.value,
-        year: document.getElementById('vehicle-year')?.value,
-        color: document.getElementById('vehicle-color')?.value,
-        engine: document.getElementById('vehicle-engine')?.value,
-        fuel: document.getElementById('vehicle-fuel')?.value,
-        transmission: document.getElementById('vehicle-transmission')?.value,
-        mileage: document.getElementById('vehicle-mileage')?.value,
-        odometerUnit: document.getElementById('vehicle-odometer')?.value,
-        bodyType: document.getElementById('vehicle-body')?.value,
-        owner: document.getElementById('vehicle-owner')?.value,
-        ownership: document.getElementById('vehicle-ownership')?.value,
-        lastService: document.getElementById('vehicle-last-service')?.value,
-        nextService: document.getElementById('vehicle-next-service')?.value,
-        serviceInterval: document.getElementById('vehicle-service-interval')?.value,
-        status: document.getElementById('vehicle-status')?.value,
-        notes: document.getElementById('vehicle-notes')?.value
+        registration: document.getElementById('vehicle-registration')?.value || '',
+        make: document.getElementById('vehicle-make')?.value || '',
+        model: document.getElementById('vehicle-model')?.value || '',
+        customerName: document.getElementById('vehicle-owner-name')?.value || ''
       };
 
       // Validate required fields
-      if (!vehicleData.registration || !vehicleData.make || !vehicleData.model || !vehicleData.year) {
-        alert('Please fill in all required fields (Registration, Make, Model, Year)');
+      if (!vehicleData.registration.trim() || !vehicleData.make.trim() || !vehicleData.model.trim()) {
+        alert('Please fill in all required fields (Registration, Make, Model)');
         return;
       }
 
-      // Save vehicle logic here
-      console.log('Saving vehicle:', vehicleData);
+      if (window.GarageDataLayer && typeof GarageDataLayer.addVehicle === 'function') {
+        GarageDataLayer.addVehicle(vehicleData);
+        document.dispatchEvent(new CustomEvent('garage:data-changed'));
+      }
       
       // Close modal and show success message
       closeAddVehicleModal();
-      alert('Vehicle saved successfully!');
+      if (window.Utils && typeof Utils.showNotification === 'function') {
+        Utils.showNotification('Vehicle saved successfully', 'success');
+      } else {
+        alert('Vehicle saved successfully!');
+      }
     });
   }
 
