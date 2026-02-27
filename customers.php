@@ -10,7 +10,7 @@ renderHeader();
     <div class="content-section">
       <div class="section-header" style="display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;">
         <div style="display: flex; align-items: center; gap: 1.2rem;">
-          <h2 class="section-title" style="margin-bottom: 0;">Customer Database: <span style="font-weight: 400; color: var(--gray-500); font-size: 1.1rem;">All <span style="font-size: 0.95rem;">(Showing 4 Records)</span></span></h2>
+          <h2 class="section-title" style="margin-bottom: 0;">Customer Database: <span style="font-weight: 400; color: var(--gray-500); font-size: 1.1rem;">All <span id="customers-records-count" style="font-size: 0.95rem;">(Showing 4 Records)</span></span></h2>
         </div>
         <div style="display: flex; align-items: center; gap: 0.5rem; position: relative;">
           <button class="btn-secondary max-results-label" style="background: var(--accent-solid); color: #fff; font-weight: 600; border-radius: 999px 0 0 999px; box-shadow: 0 2px 8px rgba(236,32,37,0.08); padding: 8px 18px 8px 16px; border-right: none;">Max Results</button>
@@ -26,12 +26,12 @@ renderHeader();
               <button class="max-results-option" data-value="all" style="padding: 10px 18px; background: none; border: none; width: 100%; text-align: left; color: var(--accent-solid); font-weight: 600; font-size: 1.05rem; transition: background 0.18s, color 0.18s;">All</button>
             </div>
           </div>
-          <button class="btn-secondary" style="background: var(--accent-light); color: var(--accent-solid);"><i class="fas fa-sync-alt"></i></button>
+          <button id="customers-refresh-btn" class="btn-secondary" style="background: var(--accent-light); color: var(--accent-solid);"><i class="fas fa-sync-alt"></i></button>
         </div>
       </div>
       <div class="customer-toolbar" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; margin-top: 1.2rem;">
         <div class="search-input-wrapper" style="position: relative; display: flex; align-items: center; width: 220px;">
-          <input type="text" placeholder="Customer Search" style="border-radius: 999px; border: 1.5px solid var(--accent-light); padding: 8px 40px 8px 16px; font-size: 1rem; width: 100%; box-shadow: 0 1px 4px rgba(236,32,37,0.04);">
+          <input id="customers-search-input" type="text" placeholder="Customer Search" style="border-radius: 999px; border: 1.5px solid var(--accent-light); padding: 8px 40px 8px 16px; font-size: 1rem; width: 100%; box-shadow: 0 1px 4px rgba(236,32,37,0.04);">
           <button type="button" class="search-icon-btn" style="position: absolute; right: 6px; top: 50%; transform: translateY(-50%); background: none; border: none; padding: 0; cursor: pointer; color: var(--accent-solid); font-size: 1.18rem; display: flex; align-items: center; justify-content: center;"><i class="fas fa-search"></i></button>
         </div>
         <button class="btn-primary fancy-btn" style="padding: 8px 22px; font-size: 1.05rem; border-radius: 999px; box-shadow: 0 2px 8px rgba(236,32,37,0.10); display: flex; align-items: center; gap: 10px; background: var(--accent-solid); color: #fff; font-weight: 700;" onclick="openAddCustomerModal()"><i class="fas fa-user-plus"></i> New Customer</button>
@@ -54,7 +54,7 @@ renderHeader();
               <th style="padding: 10px 12px; font-weight: 700; color: var(--accent-solid);">Last Inv</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="customers-table-body">
           <tr>
               <td style="padding: 16px 18px;"><span class="acc-badge">ACC-1001</span></td>
               <td style="padding: 16px 18px;">Robert Brown</td>
@@ -213,6 +213,27 @@ renderHeader();
 // Max Results Dropdown Logic
 const maxResultsBtn = document.getElementById('maxResultsBtn');
 const maxResultsMenu = document.getElementById('maxResultsMenu');
+const customersSearchInput = document.getElementById('customers-search-input');
+const customersRecordsCount = document.getElementById('customers-records-count');
+const customersRefreshBtn = document.getElementById('customers-refresh-btn');
+
+function getSelectedCustomerLimit() {
+  const raw = (maxResultsBtn?.textContent || '').trim().replace(/,/g, '');
+  const parsed = parseInt(raw, 10);
+  return Number.isFinite(parsed) ? parsed : 500;
+}
+
+function renderCustomersTable() {
+  if (!window.GarageDataLayer) return;
+  const count = GarageDataLayer.renderCustomerRows('#customers-table-body', {
+    limit: getSelectedCustomerLimit(),
+    query: customersSearchInput ? customersSearchInput.value : ''
+  });
+  if (customersRecordsCount) {
+    customersRecordsCount.textContent = `(Showing ${count} Records)`;
+  }
+}
+
 if (maxResultsBtn && maxResultsMenu) {
   maxResultsBtn.addEventListener('click', function(e) {
     e.stopPropagation();
@@ -222,6 +243,7 @@ if (maxResultsBtn && maxResultsMenu) {
     btn.addEventListener('click', function() {
       maxResultsBtn.innerHTML = this.innerText + ' <i class="fas fa-caret-down" style="margin-left: 6px;"></i>';
       maxResultsMenu.style.display = 'none';
+      renderCustomersTable();
     });
   });
   document.addEventListener('click', function(e) {
@@ -230,6 +252,17 @@ if (maxResultsBtn && maxResultsMenu) {
     }
   });
 }
+
+if (customersSearchInput) {
+  customersSearchInput.addEventListener('input', renderCustomersTable);
+}
+
+if (customersRefreshBtn) {
+  customersRefreshBtn.addEventListener('click', renderCustomersTable);
+}
+
+document.addEventListener('garage:data-changed', renderCustomersTable);
+renderCustomersTable();
 </script> 
 <style>
 .max-results-dropdown .max-results-btn:focus,
