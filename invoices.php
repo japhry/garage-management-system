@@ -125,7 +125,7 @@ renderHeader();
       </div>
     </div>
   </div>
-<?php renderFooter(); ?> 
+
 <script>
 // --- Dynamic Header & Button Logic for Invoices ---
 const mainActionBtn = document.getElementById('main-action-btn');
@@ -157,8 +157,6 @@ function updateHeaderAndButton() {
     rangeText = (mode === 'created' ? 'Created' : 'Due');
   }
   headerRange.textContent = rangeText;
-  // Update records count (placeholder: 2)
-  headerRecords.textContent = '(Showing 2 Records)';
   // Update main action button (always New Invoice)
   mainActionBtn.innerHTML = createBtnIcon + ' New Invoice';
   // Update filter bar button
@@ -167,6 +165,7 @@ function updateHeaderAndButton() {
   } else {
     createdToggleBtn.textContent = 'Due';
   }
+  filterTable();
 }
 
 // Toggle between Created and Due via Created button
@@ -278,13 +277,47 @@ dateClearBtn.addEventListener('click', function() {
 // X button for status
 statusClearBtn.addEventListener('click', function() {
   statusFilter.selectedIndex = 0;
-  // Placeholder: update table if needed
+  filterTable();
 });
 
 // Archives button redirects to archives.php
 document.getElementById('archives-btn').addEventListener('click', function() {
   window.location.href = 'archives.php';
 });
+
+function filterTable() {
+  const rows = document.querySelectorAll('.enhanced-table tbody tr');
+  const fromDate = dateFrom.value ? new Date(dateFrom.value + 'T00:00:00') : null;
+  const toDate = dateTo.value ? new Date(dateTo.value + 'T23:59:59') : null;
+  const selectedStatus = (statusFilter.value || '').trim().toLowerCase();
+  let visibleCount = 0;
+
+  rows.forEach((row) => {
+    const text = row.textContent.toLowerCase();
+    const rowDateText = row.children[2] ? row.children[2].textContent.trim() : '';
+    const rowStatusSelect = row.querySelector('.table-select');
+    const rowStatus = rowStatusSelect ? rowStatusSelect.value.trim().toLowerCase() : '';
+
+    let matchesStatus = true;
+    if (selectedStatus && selectedStatus !== '~') {
+      matchesStatus = rowStatus === selectedStatus || text.includes(selectedStatus);
+    }
+
+    let matchesDate = true;
+    if ((fromDate || toDate) && /^\d{2}\/\d{2}\/\d{4}$/.test(rowDateText)) {
+      const [day, month, year] = rowDateText.split('/').map(Number);
+      const rowDate = new Date(year, month - 1, day);
+      if (fromDate && rowDate < fromDate) matchesDate = false;
+      if (toDate && rowDate > toDate) matchesDate = false;
+    }
+
+    const show = matchesStatus && matchesDate;
+    row.style.display = show ? '' : 'none';
+    if (show) visibleCount++;
+  });
+
+  headerRecords.textContent = `(Showing ${visibleCount} Records)`;
+}
 
 // --- New Invoice Popup Logic ---
 const newInvoiceModal = document.getElementById('newInvoiceModal');
@@ -421,20 +454,23 @@ function closeAllDropdowns() {
 }
 
 function handleExtrasAction(action) {
-  console.log('Extras action:', action);
-  // Add your action handling logic here
+  if (window.Utils && typeof Utils.showNotification === 'function') {
+    Utils.showNotification(`Extras: ${action}`, 'info');
+  }
   closeAllDropdowns();
 }
 
 function handleTransactionsAction(action) {
-  console.log('Transactions action:', action);
-  // Add your action handling logic here
+  if (window.Utils && typeof Utils.showNotification === 'function') {
+    Utils.showNotification(`Transactions: ${action}`, 'info');
+  }
   closeAllDropdowns();
 }
 
 function handleConvertAction(action) {
-  console.log('Convert action:', action);
-  // Add your action handling logic here
+  if (window.Utils && typeof Utils.showNotification === 'function') {
+    Utils.showNotification(`Convert: ${action}`, 'info');
+  }
   closeAllDropdowns();
 }
 
@@ -447,4 +483,7 @@ document.addEventListener('click', function(event) {
 
 // Initial update
 updateHeaderAndButton();
-</script> 
+</script>
+
+<?php renderFooter(); ?>
+
