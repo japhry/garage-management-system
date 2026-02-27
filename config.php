@@ -74,6 +74,7 @@ function renderHeader() {
 function renderFooter() {
     ?>
         <?php include 'partials/footer.php'; ?>
+        <script src="<?php echo e(getBaseUrl()); ?>Assets/JS/data-layer.js?v=<?php echo e((string) time()); ?>"></script>
         <script src="<?php echo e(getBaseUrl()); ?>Assets/JS/script.js?v=<?php echo e((string) time()); ?>"></script>
     </body>
     </html>
